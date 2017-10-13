@@ -1,2 +1,4 @@
 *.pyc
 config.py
+data-dump
+data-dump/*
