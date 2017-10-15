@@ -5,10 +5,17 @@ import termios
 import tweeter
 import plotter
 
+class OutOfBeads(BaseException):
+    pass
+
 class Collector(object):
     def __init__(self):
         self.filename = "data-dump/data.json"
         self.data = []
+        self.won = False
+        self.drawn = False
+        self.lost = False
+        self.played = False
 
     def simulate(self):
         import menace
@@ -21,6 +28,9 @@ class Collector(object):
         N = 0
         while True:
             winner, moves = g.play(return_moves=True)
+            if moves[0] == "RESIGN":
+                self.tweet("I just ran out of beads in my first move box. Uh oh!")
+                raise OutOfBeads
             if moves[0] == 4:
                 if moves[1] % 2 == 0:
                     m = "20"
@@ -58,13 +68,36 @@ class Collector(object):
             print(m,w)
 
             N += 1
-            if N % 1 == 0:
-                print("Saving, please wait...")
-                self.save()
-                print("Plotting, please wait...")
-                self.plot()
+            self.crunch_data(N)
             print("Waiting 1 second")
             sleep(1)
+
+    def crunch_data(self, N):
+        if N % 1 == 0:
+            print("Saving, please wait...")
+            self.save()
+            print("Plotting, please wait...")
+            self.plot()
+        if N % 25 == 0:
+            self.tweet_graph("This graph shows my learning progress after "+str(N)+" games")
+        if not self.won and self.data[-1][1] == "0":
+            self.tweet("I just won my first game!")
+            self.won = True
+        if not self.drawn and self.data[-1][1] == "1":
+            self.tweet("I just drew my first game!")
+            self.drawn = True
+        if not self.lost and self.data[-1][1] == "2":
+            self.lost = True
+        if not self.played:
+            self.tweet("I just played my first game!")
+            self.played = True
+
+    def tweet_graph(self, tweet):
+        tweeter.send_tweet_with_image(tweet, "display/line.png")
+
+    def tweet(self, tweet):
+        print("Tweeting...")
+        tweeter.send_tweet(tweet)
 
     def load(self, filename=None):
         if filename is None:
@@ -105,11 +138,7 @@ class Collector(object):
         while True:
             self.collect()
             N += 1
-            if N % 10 == 0:
-                print("Saving, please wait...")
-                self.save()
-                print("Plotting, please wait...")
-                self.plot()
+            self.crunch_data(N)
 
     def end(self):
         fd = sys.stdin.fileno()
