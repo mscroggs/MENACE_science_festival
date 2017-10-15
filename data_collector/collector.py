@@ -16,6 +16,7 @@ class Collector(object):
         self.drawn = False
         self.lost = False
         self.played = False
+        self.TWEETING = True
 
     def simulate(self):
         import menace
@@ -93,11 +94,18 @@ class Collector(object):
             self.played = True
 
     def tweet_graph(self, tweet):
-        tweeter.send_tweet_with_image(tweet, "display/line.png")
+        if self.TWEETING:
+            print("Tweeting \""+tweet+"\"...")
+            tweeter.send_tweet_with_image(tweet, "display/line.png")
+        else:
+            print("Normally I would tweet \""+tweet+"\" and a graph but tweeting is disabled...")
 
     def tweet(self, tweet):
-        print("Tweeting...")
-        tweeter.send_tweet(tweet)
+        if self.TWEETING:
+            print("Tweeting \""+tweet+"\"...")
+            tweeter.send_tweet(tweet)
+        else:
+            print("Normally I would tweet \""+tweet+"\" but tweeting is disabled...")
 
     def load(self, filename=None):
         if filename is None:

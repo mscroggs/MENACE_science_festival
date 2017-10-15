@@ -3,6 +3,8 @@ import data_collector
 
 c = data_collector.Collector()
 
+c.TWEETING = False
+
 c.filename = "data-dump/final-sim.json"
 
 try:
