@@ -14,6 +14,7 @@ class Collector(object):
         import menace
         from menace.bots import MENACE, Good
         from menace.game import Game
+        from time import sleep
         p1 = MENACE()
         p2 = Good()
         g = Game(p1,p2)
@@ -25,7 +26,7 @@ class Collector(object):
                     m = "20"
                 else:
                     m = "21"
-            if moves[0]%2==0:
+            elif moves[0]%2==0:
                 if moves[1] == 4:
                     m = "00"
                 elif (moves[0] in [0,8] and moves[1] in [0,8]) or (moves[0] in [2,6] and moves[1] in [2,6]):
@@ -54,13 +55,16 @@ class Collector(object):
             else:
                 w = "2"
             self.data.append((m,w))
+            print(m,w)
 
             N += 1
-            if N % 10 == 0:
+            if N % 1 == 0:
                 print("Saving, please wait...")
                 self.save()
                 print("Plotting, please wait...")
                 self.plot()
+            print("Waiting 1 second")
+            sleep(1)
 
     def load(self, filename=None):
         if filename is None:

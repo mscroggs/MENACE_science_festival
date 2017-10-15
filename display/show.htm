@@ -1,0 +1,14 @@
+<html>
+<head>
+<title>MENACE</title>
+</head>
+<body>
+<img src='line.png' id='linePlot'>
+<script type='text/javascript'>
+function reload(){
+    document.getElementById("linePlot").src="line.png?t=" + new Date().getTime()
+}
+setInterval(reload, 2000);
+</script>
+</body>
+</html>
