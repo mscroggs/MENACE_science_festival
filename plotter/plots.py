@@ -1,5 +1,8 @@
 import matplotlib.pylab as plt
 
+def kwargs():
+    return {"fontname":"Latin Modern Mono"}
+
 def line_plot(data, filename):
     y = 0
     xa,ya = [],[]
@@ -31,14 +34,16 @@ def line_plot(data, filename):
     plt.plot(x1, y1, "o", c="#fd8ba1")
     plt.plot(x2, y2, "o", c="#0f9137")
 
+    plt.gcf().subplots_adjust(top=0.99)
+
     xlim = (0,50*(1+i//50))
     ylim = (-25,25*(1+max(ya)//25))
     plt.xlim(xlim)
     plt.ylim(ylim)
-    plt.xticks(range(0,xlim[1],10))
-    plt.yticks(range(-20,ylim[1]+1,10))
+    plt.xticks(range(0,xlim[1],10), **kwargs())
+    plt.yticks(range(-20,ylim[1]+1,10), **kwargs())
 
-    plt.xlabel("Games played")
-    plt.ylabel("Change in number of beads in first box")
-    plt.savefig(filename)
+    plt.xlabel("Games played", **kwargs())
+    plt.ylabel("Change in number of beads in first box", **kwargs())
+    plt.savefig(filename, dpi=100)
     plt.clf()

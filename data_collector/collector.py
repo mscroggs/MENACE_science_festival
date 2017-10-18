@@ -23,6 +23,7 @@ class Collector(object):
         from menace.bots import MENACE, Good
         from menace.game import Game
         from time import sleep
+        from random import randrange
         p1 = MENACE()
         p2 = Good()
         g = Game(p1,p2)

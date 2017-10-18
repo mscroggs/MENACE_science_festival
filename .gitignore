@@ -4,3 +4,5 @@ data-dump
 data-dump/*
 display/line.png
 *.swp
+display/_files
+display/_files/*

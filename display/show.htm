@@ -1,9 +1,22 @@
 <html>
 <head>
 <title>MENACE</title>
+<style type='text/css'>
+table.invisible,
+table.invisible tr,
+table.invisible td {border:0}
+</style>
 </head>
 <body>
-<img src='line.png' id='linePlot'>
+<center><img src='_files/logo.png' style='width:300px'></center>
+
+<table class='invisible'>
+<tr><td>
+<img src='line.png' id='linePlot' style='width:600px'>
+</td><td>
+<a class="twitter-timeline" href="https://twitter.com/MENACElearns?ref_src=twsrc%5Etfw">Tweets by MENACElearns</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+</td></tr>
+</table>
 <script type='text/javascript'>
 function reload(){
     document.getElementById("linePlot").src="line.png?t=" + new Date().getTime()
