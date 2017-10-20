@@ -1,4 +1,5 @@
 import matplotlib.pylab as plt
+from matplotlib import gridspec
 
 def kwargs():
     return {"fontname":"Latin Modern Mono"}
@@ -29,21 +30,65 @@ def line_plot(data, filename):
             x2.append(i)
             y2.append(y)
 
-    plt.plot(xa, ya, "k-")
-    plt.plot(x0, y0, "o", c="#045ba4")
-    plt.plot(x1, y1, "o", c="#fd8ba1")
-    plt.plot(x2, y2, "o", c="#0f9137")
 
+    fig = plt.figure(figsize=(10,5))
     plt.gcf().subplots_adjust(top=0.99)
 
-    xlim = (0,50*(1+i//50))
-    ylim = (-25,25*(1+max(ya)//25))
+
+
+    p1 = fig.add_subplot(121)
+
+    cornercol = "#0000ff"
+    edgecol = "#ff0000"
+    centercol = "#006400"
+
+    op = {"mec":"k","mew":0.6}
+    p1.plot(xa, ya, "k-")
+    p1.plot(x0, y0, "o", c=cornercol, **op)
+    p1.plot(x1, y1, "o", c=edgecol, **op)
+    p1.plot(x2, y2, "o", c=centercol, **op)
+
+
+    if len(data)==0:
+        xlim = (0,50)
+        ylim = (-25,25)
+    else:
+        xlim = (0,50*(1+i//50))
+        ylim = (-25,25*(1+max(0,max(ya))//25))
     plt.xlim(xlim)
     plt.ylim(ylim)
-    plt.xticks(range(0,xlim[1],10), **kwargs())
+    plt.xticks(range(0,xlim[1]+1,10), **kwargs())
     plt.yticks(range(-20,ylim[1]+1,10), **kwargs())
 
     plt.xlabel("Games played", **kwargs())
-    plt.ylabel("Change in number of beads in first box", **kwargs())
+    plt.ylabel("Change in number of beads in first box\n(3"+u"\u00D7"+"WINS + 1"+u"\u00D7"+"DRAWS - 1"+u"\u00D7"+"LOSSES)", **kwargs())
+
+
+    p2 = fig.add_subplot(122)
+    #p2.figure()
+    p2.plot([10,10],[0,30],"k-")
+    p2.plot([20,20],[0,30],"k-")
+    p2.plot([0,30],[10,10],"k-")
+    p2.plot([0,30],[20,20],"k-")
+
+    op = {"edgecolor":"k"}
+
+    for pos in [(5,5),(25,25),(5,25),(25,5)]:
+        circ=plt.Circle(pos, radius=4, facecolor=cornercol, fill=True, **op)
+        p2.add_patch(circ)
+    for pos in [(15,5),(15,25),(5,15),(25,15)]:
+        circ=plt.Circle(pos, radius=4, facecolor=edgecol, fill=True, **op)
+        p2.add_patch(circ)
+    circ=plt.Circle((15,15), radius=4, facecolor=centercol, fill=True, **op)
+    p2.add_patch(circ)
+
+    plt.annotate("Colours show MENACE's first move", **kwargs(), xy=(15,32),ha="center")
+    plt.axis('equal')
+    plt.axis("off")
+
+    from IPython import embed
+    embed()
+    ahladjg()
+
     plt.savefig(filename, dpi=100)
     plt.clf()

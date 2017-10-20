@@ -17,6 +17,7 @@ class Collector(object):
         self.lost = False
         self.played = False
         self.TWEETING = True
+        self.plot()
 
     def simulate(self):
         import menace
