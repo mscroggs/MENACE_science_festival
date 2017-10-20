@@ -25,12 +25,12 @@ class Collector(object):
 
     def simulate(self):
         import menace
-        from menace.bots import MENACE, Good
+        from menace.bots import MENACE, Good, QuiteGood
         from menace.game import Game
         from time import sleep
         from random import randrange
         p1 = MENACE()
-        p2 = Good()
+        p2 = QuiteGood()
         g = Game(p1,p2)
         N = 0
         while True:

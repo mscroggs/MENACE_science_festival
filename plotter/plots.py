@@ -88,6 +88,6 @@ def line_plot(data, filename):
     plt.axis('equal')
     plt.axis("off")
 
-    plt.savefig(filename, dpi=100)
+    plt.savefig(filename, dpi=120)
     plt.clf()
     plt.close(fig)
