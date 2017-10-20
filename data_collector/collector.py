@@ -9,15 +9,19 @@ class OutOfBeads(BaseException):
     pass
 
 class Collector(object):
-    def __init__(self):
+    def __init__(self, data=None):
         self.filename = "data-dump/data.json"
         self.data = []
         self.won = 0
         self.drawn = 0
         self.lost = 0
         self.played = 0
+        if data is not None:
+            if data.split(".")[-1] != "json":
+                raise TypeError("Can only load state from json")
+            self.load_json(data)
         self.TWEETING = True
-        self.plot()
+        self.plot_etc()
 
     def simulate(self):
         import menace
@@ -32,7 +36,7 @@ class Collector(object):
         while True:
             winner, moves = g.play(return_moves=True)
             if moves[0] == "RESIGN":
-                self.tweet("I just ran out of beads in my first move box. Uh oh!")
+                self.tweet("I just ran out of beads in my first move box. Please come reset me, @mscroggs!")
                 raise OutOfBeads
             if moves[0] == 4:
                 if moves[1] % 2 == 0:
@@ -76,30 +80,41 @@ class Collector(object):
             sleep(1)
 
     def crunch_data(self, N):
-
         if self.played == 0:
-            self.tweet("I just played my first game!")
+            s2 = ""
+            if self.data[-1][1] == "0":
+                s2 = " And I've already won a game!"
+            if self.data[-1][1] == "1":
+                s2 = " I drew. Come along and see if you can beat me!"
+            if self.data[-1][1] == "2":
+                s2 = " I lost, but I'm learning from my mistakes..."
+            self.tweet("I just played my first game of Noughts & Crosses at #msf17!"+s2)
         self.played += 1
         if self.data[-1][1] == "0":
-            if self.won == 0:
-                self.tweet("I just won my first game!")
+            if self.won == 0 and self.played != 1:
+                self.tweet("I just won a game of Noughts & Crosses for the first time. Not bad for a pile of matchboxes! #msf17")
             self.won += 1
         if self.data[-1][1] == "1":
-            if self.drawn == 0:
-                self.tweet("I just drew my first game!")
+            if self.drawn == 0 and self.played != 1:
+                self.tweet("I just drew a game of Noughts & Crosses for the first time. #msf17")
             self.drawn += 1
         if self.data[-1][1] == "2":
             self.lost += 1
+        if N%25 == 0:
+            self.plot_etc(N)
+        else:
+            self.plot_etc()
 
-        if N % 1 == 0:
-            print("Saving, please wait...")
-            self.save()
-            print("Plotting, please wait...")
-            self.plot()
-            print("Saving totals, please wait...")
-            self.output_numbers()
-        if N % 25 == 0:
-            self.tweet_graph("This graph shows my learning progress after "+str(N)+" games")
+    def plot_etc(self, N=None):
+        print("Saving, please wait...")
+        self.save()
+        print("Plotting, please wait...")
+        self.plot()
+        print("Saving totals, please wait...")
+        self.output_numbers()
+        if N is not None:
+            self.save(N=N)
+            self.tweet_graph("This graph shows my learning progress after "+str(N)+" games. #msf17")
 
     def output_numbers(self):
         with open("display/numbers.txt","w") as f:
@@ -124,8 +139,7 @@ class Collector(object):
             filename = self.filename
         ext = filename.split(".")[-1]
         if ext == "json":
-            with open(filename) as f:
-                self.data = json.load(f)
+            self.load_json(filename)
         elif ext == "csv":
             self.data = []
             with open(filename) as f:
@@ -134,13 +148,33 @@ class Collector(object):
         else:
             raise TypeError("File format ."+ext+" not recognised")
 
-    def save(self, filename=None):
+    def save_json(self, filename=None):
+        if filename is None:
+            filename = self.filename
+        with open(filename,"w") as f:
+            json.dump({"data":self.data,"w":self.won,"l":self.lost,"d":self.drawn,"p":self.played}, f)
+
+    def load_json(self, filename=None):
+        if filename is None:
+            filename = self.filename
+        with open(filename) as f:
+            temp = json.load(f)
+        self.data = temp["data"]
+        self.won = temp["w"]
+        self.lost = temp["l"]
+        self.drawn = temp["d"]
+        self.played = temp["p"]
+
+
+    def save(self, filename=None, N=None):
         if filename is None:
             filename = self.filename
         ext = filename.split(".")[-1]
+        if N is not None:
+            fs = filename.split(".")
+            filename = ".".join(fs[:-1])+"-"+str(N)+"."+fs[-1]
         if ext == "json":
-            with open(filename,"w") as f:
-                json.dump(self.data, f)
+            self.save_json(filename)
         elif ext == "csv":
             with open(filename,"w") as f:
                 for line in self.data:

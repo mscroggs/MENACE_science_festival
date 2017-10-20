@@ -23,5 +23,5 @@ def send_tweet_with_image(text, image):
 
         results = twitter.statuses.update(status=text, media_ids=id_img)
 
-    except KeyboardInterrupt:
+    except:
         print("Tweet not sent")

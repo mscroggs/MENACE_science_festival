@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>MENACE</title>
+<style type='text/css'>
+table.invisible,
+table.invisible tr,
+table.invisible td {border:0}
+table.totals,
+table.totals tr,
+table.totals td {border:0}
+table.totals td {width:150px;text-align:center}
+table.totals span {font-size:30px}
+table {margin-left:auto;margin-right:auto}
+body {text-align:center;font-family:"Latin Modern Mono",serif}
+</style>
+</head>
+<body>
+<img src='_files/logo.png' style='width:200px'><br />
+<img src='line.png' id='linePlot' style='width:1000px'>
+<table class='totals' style='margin-top:50px'>
+<tr>
+<td>MENACE wins<br /><span id='won'>0</span></td>
+<td>draws<br /><span id='drawn'>0</span></td>
+<td>human wins<br /><span id='lost'>0</span></td>
+</tr>
+</table>
+<script type='text/javascript'>
+function reloadIMG(){
+    document.getElementById("linePlot").src="line.png?t=" + new Date().getTime()
+}
+setInterval(reloadIMG, 2000);
+
+var loader;
+loader = new XMLHttpRequest();
+loader.onreadystatechange=function(){
+    if(loader.readyState==4 && loader.status==200){
+        ns = loader.responseText.split(",");
+        document.getElementById("won").innerHTML=ns[0];
+        document.getElementById("drawn").innerHTML=ns[1];
+        document.getElementById("lost").innerHTML=ns[2];
+        setTimeout(reloadN, 2000);
+    }
+}
+
+function reloadN(){
+    loader.open("GET","/numbers.txt?t=" + new Date().getTime());
+    loader.send();
+}
+reloadN()
+</script>
+</body>
+</html>

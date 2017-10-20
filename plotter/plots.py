@@ -39,7 +39,6 @@ def line_plot(data, filename):
 
 
 
-    #p1 = fig.add_subplot(121)
     p1 = plt.subplot(gs[:,:-1])
 
     cornercol = "#0000ff"
@@ -69,8 +68,6 @@ def line_plot(data, filename):
 
 
     p2 = plt.subplot(gs[:,-1])
-    #p2 = fig.add_subplot(122)
-    #p2.figure()
     p2.plot([10,10],[0,30],"k-")
     p2.plot([20,20],[0,30],"k-")
     p2.plot([0,30],[10,10],"k-")
@@ -91,9 +88,6 @@ def line_plot(data, filename):
     plt.axis('equal')
     plt.axis("off")
 
-    #from IPython import embed
-    #embed()
-    #ahladjg()
-
     plt.savefig(filename, dpi=100)
     plt.clf()
+    plt.close(fig)
