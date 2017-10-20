@@ -12,10 +12,10 @@ class Collector(object):
     def __init__(self):
         self.filename = "data-dump/data.json"
         self.data = []
-        self.won = False
-        self.drawn = False
-        self.lost = False
-        self.played = False
+        self.won = 0
+        self.drawn = 0
+        self.lost = 0
+        self.played = 0
         self.TWEETING = True
         self.plot()
 
@@ -76,24 +76,34 @@ class Collector(object):
             sleep(1)
 
     def crunch_data(self, N):
+
+        if self.played == 0:
+            self.tweet("I just played my first game!")
+        self.played += 1
+        if self.data[-1][1] == "0":
+            if self.won == 0:
+                self.tweet("I just won my first game!")
+            self.won += 1
+        if self.data[-1][1] == "1":
+            if self.drawn == 0:
+                self.tweet("I just drew my first game!")
+            self.drawn += 1
+        if self.data[-1][1] == "2":
+            self.lost += 1
+
         if N % 1 == 0:
             print("Saving, please wait...")
             self.save()
             print("Plotting, please wait...")
             self.plot()
+            print("Saving totals, please wait...")
+            self.output_numbers()
         if N % 25 == 0:
             self.tweet_graph("This graph shows my learning progress after "+str(N)+" games")
-        if not self.won and self.data[-1][1] == "0":
-            self.tweet("I just won my first game!")
-            self.won = True
-        if not self.drawn and self.data[-1][1] == "1":
-            self.tweet("I just drew my first game!")
-            self.drawn = True
-        if not self.lost and self.data[-1][1] == "2":
-            self.lost = True
-        if not self.played:
-            self.tweet("I just played my first game!")
-            self.played = True
+
+    def output_numbers(self):
+        with open("display/numbers.txt","w") as f:
+            f.write(str(self.won)+","+str(self.drawn)+","+str(self.lost))
 
     def tweet_graph(self, tweet):
         if self.TWEETING:

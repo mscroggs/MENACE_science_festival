@@ -2,7 +2,7 @@ import matplotlib.pylab as plt
 from matplotlib import gridspec
 
 def kwargs():
-    return {"fontname":"Latin Modern Mono"}
+    return {"fontname":"Latin Modern Mono","fontsize":15}
 
 def line_plot(data, filename):
     y = 0
@@ -31,12 +31,16 @@ def line_plot(data, filename):
             y2.append(y)
 
 
-    fig = plt.figure(figsize=(10,5))
+    gs = gridspec.GridSpec(1,5)
+
+
+    fig = plt.figure(figsize=(15,5))
     plt.gcf().subplots_adjust(top=0.99)
 
 
 
-    p1 = fig.add_subplot(121)
+    #p1 = fig.add_subplot(121)
+    p1 = plt.subplot(gs[:,:-1])
 
     cornercol = "#0000ff"
     edgecol = "#ff0000"
@@ -64,7 +68,8 @@ def line_plot(data, filename):
     plt.ylabel("Change in number of beads in first box\n(3"+u"\u00D7"+"WINS + 1"+u"\u00D7"+"DRAWS - 1"+u"\u00D7"+"LOSSES)", **kwargs())
 
 
-    p2 = fig.add_subplot(122)
+    p2 = plt.subplot(gs[:,-1])
+    #p2 = fig.add_subplot(122)
     #p2.figure()
     p2.plot([10,10],[0,30],"k-")
     p2.plot([20,20],[0,30],"k-")
@@ -82,13 +87,13 @@ def line_plot(data, filename):
     circ=plt.Circle((15,15), radius=4, facecolor=centercol, fill=True, **op)
     p2.add_patch(circ)
 
-    plt.annotate("Colours show MENACE's first move", **kwargs(), xy=(15,32),ha="center")
+    plt.annotate("MENACE's first move", **kwargs(), xy=(15,32),ha="center")
     plt.axis('equal')
     plt.axis("off")
 
-    from IPython import embed
-    embed()
-    ahladjg()
+    #from IPython import embed
+    #embed()
+    #ahladjg()
 
     plt.savefig(filename, dpi=100)
     plt.clf()
