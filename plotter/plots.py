@@ -6,7 +6,7 @@ def kwargs():
 
 def line_plot(data, filename):
     y = 0
-    xa,ya = [],[]
+    xa,ya = [0],[0]
     x0,y0 = [],[]
     x1,y1 = [],[]
     x2,y2 = [],[]
@@ -18,16 +18,16 @@ def line_plot(data, filename):
         if a[1] == "2":
             y -= 1
 
-        xa.append(i)
+        xa.append(i+1)
         ya.append(y)
         if a[0][0] == "0":
-            x0.append(i)
+            x0.append(i+1)
             y0.append(y)
         if a[0][0] == "1":
-            x1.append(i)
+            x1.append(i+1)
             y1.append(y)
         if a[0][0] == "2":
-            x2.append(i)
+            x2.append(i+1)
             y2.append(y)
 
 
@@ -35,7 +35,7 @@ def line_plot(data, filename):
 
 
     fig = plt.figure(figsize=(15,5))
-    plt.gcf().subplots_adjust(top=0.99)
+    plt.gcf().subplots_adjust(top=0.93)
 
 
 
@@ -56,7 +56,7 @@ def line_plot(data, filename):
         xlim = (0,50)
         ylim = (-25,25)
     else:
-        xlim = (0,50*(1+i//50))
+        xlim = (0,50*(1+(i+1)//50))
         ylim = (-25,25*(1+max(0,max(ya))//25))
     plt.xlim(xlim)
     plt.ylim(ylim)
