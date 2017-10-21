@@ -17,7 +17,8 @@ body {text-align:center;font-family:"Latin Modern Mono",serif}
 </style>
 </head>
 <body>
-<img src='_files/logo.png' style='width:302px;height:194px;margin-top:30px'><br />
+<img src='_files/logo.png' id='logob' style='width:302px;height:194px;margin-top:30px'><br />
+<img src='_files/logo-overlay.png' style='width:302px;height:194px;margin-top:-194px'>
 <img src='line.png' id='linePlot' style='width:1890px;630px'>
 <table class='totals' style='margin-top:50px'>
 <tr>
@@ -30,6 +31,13 @@ body {text-align:center;font-family:"Latin Modern Mono",serif}
 function reloadIMG(){
     document.getElementById("linePlot").src="line.png?t=" + new Date().getTime()
 }
+function blink(){
+    document.getElementById("logob").src="_files/logo-blinkfast-small.gif"
+    setTimeout(blink, 1000*(3+Math.random()*10));
+}
+
+blink()
+
 setInterval(reloadIMG, 2000);
 
 var loader;
