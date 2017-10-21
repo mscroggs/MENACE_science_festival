@@ -32,7 +32,6 @@ class Collector(object):
         p1 = MENACE()
         p2 = QuiteGood()
         g = Game(p1,p2)
-        N = 0
         while True:
             winner, moves = g.play(return_moves=True)
             if moves[0] == "RESIGN":
@@ -74,12 +73,11 @@ class Collector(object):
             self.data.append((m,w))
             print(m,w)
 
-            N += 1
-            self.crunch_data(N)
+            self.crunch_data()
             print("Waiting 1 second")
             sleep(1)
 
-    def crunch_data(self, N):
+    def crunch_data(self):
         if self.played == 0:
             s2 = ""
             if self.data[-1][1] == "0":
@@ -87,8 +85,8 @@ class Collector(object):
             if self.data[-1][1] == "1":
                 s2 = " I drew. Come along and see if you can beat me!"
             if self.data[-1][1] == "2":
-                s2 = " I lost, but I'm learning from my mistakes..."
-            self.tweet("I just played my first game of Noughts & Crosses at #msf17!"+s2)
+                s2 = " I lost, but I going to learn from my mistakes..."
+            self.tweet("I just played today's first game of Noughts & Crosses at @McrSciFest."+s2+" #msf17")
         self.played += 1
         if self.data[-1][1] == "0":
             if self.won == 0 and self.played != 1:
@@ -100,12 +98,14 @@ class Collector(object):
             self.drawn += 1
         if self.data[-1][1] == "2":
             self.lost += 1
-        if N%25 == 0:
-            self.plot_etc(N)
+        if self.played%20 == 0:
+            self.plot_etc(N=self.played)
+        if self.played%20 == 10:
+            self.plot_etc(N2=(self.won,self.drawn,self.lost))
         else:
             self.plot_etc()
 
-    def plot_etc(self, N=None):
+    def plot_etc(self, N=None, N2=None):
         print("Saving, please wait...")
         self.save()
         print("Plotting, please wait...")
@@ -115,6 +115,8 @@ class Collector(object):
         if N is not None:
             self.save(N=N)
             self.tweet_graph("This graph shows my learning progress after "+str(N)+" games. #msf17")
+        if N2 is not None:
+            self.tweet_graph("I've played "+str(self.played)+" games so far today: I've won "+str(N2[0])+", drawn "+str(N2[1])+", and lost "+str(N2[2])+". #msf17")
 
     def output_numbers(self):
         with open("display/numbers.txt","w") as f:
@@ -187,12 +189,10 @@ class Collector(object):
         plotter.line_plot(self.data,"display/line.png")
 
     def start(self):
-        N = 0
         tty.setcbreak(sys.stdin)
         while True:
             self.collect()
-            N += 1
-            self.crunch_data(N)
+            self.crunch_data()
 
     def end(self):
         fd = sys.stdin.fileno()
