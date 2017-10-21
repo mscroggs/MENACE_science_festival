@@ -4,6 +4,7 @@ import json
 import termios
 import tweeter
 import plotter
+from random import choice
 
 class OutOfBeads(BaseException):
     pass
@@ -89,8 +90,25 @@ class Collector(object):
             self.tweet("I just played today's first game of Noughts & Crosses at @McrSciFest."+s2+" #msf17")
         self.played += 1
         if self.data[-1][1] == "0":
-            if self.won == 0 and self.played != 1:
-                self.tweet("I just won a game of Noughts & Crosses for the first time. Not bad for a pile of matchboxes! #msf17")
+            if self.played != 1:
+                if self.won == 0:
+                    self.tweet("I just won a game of Noughts & Crosses for the first time. Not bad for a pile of matchboxes! #msf17")
+                else:
+                    nth = str(self.won)
+                    if nth[-1]=="1" and nth[-2:]!="11":
+                        nth += "st"
+                    elif nth[-1]=="2" and nth[-2:]!="12":
+                        nth += "nd"
+                    else:
+                        nth += "th"
+                    self.tweet(choice(["I won another game of Noughts & Crosses!",
+                                       "I just won a game. Take that, humans!",
+                                       "Breaking news: A human just lost a game of Noughts & Crosses to a pile of matchboxes.",
+                                       "I've just won my "+nth+" game of Noughts & Crosses of the day.",
+                                       "I have become sentient enough to win another game of Noughts & Crosses.",
+                                       "I have now won "+str(self.won)+" games of Noughts & Crosses. I'm nearly ready to take over the world.",
+                                       "MENACE wins again!"
+                                      ])+" #msf17")
             self.won += 1
         if self.data[-1][1] == "1":
             if self.drawn == 0 and self.played != 1:
