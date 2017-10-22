@@ -54,14 +54,14 @@ def line_plot(data, filename):
 
     if len(data)==0:
         xlim = (0,50)
-        ylim = (-25,25)
+        ylim = (-36,25)
     else:
         xlim = (0,50*(1+(i+1)//50))
-        ylim = (-25,25*(1+max(0,max(ya))//25))
+        ylim = (-36,25*(1+max(0,max(ya))//25))
     plt.xlim(xlim)
     plt.ylim(ylim)
     plt.xticks(range(0,xlim[1]+1,10), **kwargs())
-    plt.yticks(range(-20,ylim[1]+1,10), **kwargs())
+    plt.yticks(range(-30,ylim[1]+1,10), **kwargs())
 
     plt.xlabel("Games played", **kwargs())
     plt.ylabel("Change in number of beads in first box\n(3"+u"\u00D7"+"WINS + 1"+u"\u00D7"+"DRAWS - 1"+u"\u00D7"+"LOSSES)", **kwargs())

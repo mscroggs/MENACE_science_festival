@@ -243,6 +243,7 @@ class Collector(object):
         print("   -+-+-          -+-+-          -+-+-   ")
         print("    | |            | |            | |    ")
         m1 = self.prompt(["0","1","2"])
+        #m1 = "0"
 
         for i in range(2):
             print("")
