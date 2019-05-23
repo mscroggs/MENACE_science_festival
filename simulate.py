@@ -4,8 +4,10 @@ import sys
 
 c = data_collector.Collector()
 
-if len(sys.argv)>1 and sys.argv[1] == "test":
-    c.TWEETING = False
+c.TWEETING = False
+
+if len(sys.argv)>1 and sys.argv[1] == "tweet":
+    c.Tweeting = True
 
 c.filename = "data-dump/final-sim.json"
 

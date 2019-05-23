@@ -10,7 +10,7 @@ class OutOfBeads(BaseException):
     pass
 
 class Collector(object):
-    def __init__(self, data=None):
+    def __init__(self, data=None, tweet=True, where="@hayfestival", hashtag="#HayFestival2019"):
         self.filename = "data-dump/data.json"
         self.data = []
         self.won = 0
@@ -21,7 +21,9 @@ class Collector(object):
             if data.split(".")[-1] != "json":
                 raise TypeError("Can only load state from json")
             self.load_json(data)
-        self.TWEETING = True
+        self.TWEETING = tweet
+        self.where = where
+        self.hashtag = hashtag
         self.plot_etc()
 
     def simulate(self):
@@ -36,43 +38,16 @@ class Collector(object):
         while True:
             winner, moves = g.play(return_moves=True)
             if moves[0] == "RESIGN":
-                self.tweet("I just ran out of beads in my first move box. Please come reset me, @mscroggs!")
+                #self.tweet("I just ran out of beads in my first move box. Please come reset me, @mscroggs!")
                 raise OutOfBeads
-            if moves[0] == 4:
-                if moves[1] % 2 == 0:
-                    m = "20"
-                else:
-                    m = "21"
-            elif moves[0]%2==0:
-                if moves[1] == 4:
-                    m = "00"
-                elif (moves[0] in [0,8] and moves[1] in [0,8]) or (moves[0] in [2,6] and moves[1] in [2,6]):
-                    m = "01"
-                elif moves[1] in [0,2,6,8]:
-                    m = "03"
-                elif abs(moves[0]-moves[1]) in [1,3]:
-                    m = "02"
-                else:
-                    m = "04"
-            else:
-                if moves[1] == 4:
-                    m = "12"
-                elif (moves[0] in [1,7] and moves[1] in [1,7]) or (moves[0] in [3,5] and moves[1] in [3,5]):
-                    m = "14"
-                elif moves[1] in [1,7,3,5]:
-                    m = "11"
-                elif abs(moves[0]-moves[1] in [1,3]):
-                    m = "10"
-                else:
-                    m = "13"
             if winner == 0:
                 w = "1"
             elif winner == 1:
                 w = "0"
             else:
                 w = "2"
-            self.data.append((m,w))
-            print(m,w)
+            self.data.append(w)
+            print(w)
 
             self.crunch_data()
             print("Waiting 1 second")
@@ -81,18 +56,18 @@ class Collector(object):
     def crunch_data(self):
         if self.played == 0:
             s2 = ""
-            if self.data[-1][1] == "0":
+            if self.data[-1] == "0":
                 s2 = " And I've already won a game!"
-            if self.data[-1][1] == "1":
+            if self.data[-1] == "1":
                 s2 = " I drew. Come along and see if you can beat me!"
-            if self.data[-1][1] == "2":
+            if self.data[-1] == "2":
                 s2 = " I lost, but I going to learn from my mistakes..."
-            self.tweet("I just played today's first game of Noughts & Crosses at @McrSciFest."+s2+" #msf17")
+            self.tweet("I just played today's first game of Noughts & Crosses at "+self.where+"."+s2+" "+self.hashtag)
         self.played += 1
-        if self.data[-1][1] == "0":
+        if self.data[-1] == "0":
             if self.played != 1:
                 if self.won == 0:
-                    self.tweet("I just won a game of Noughts & Crosses for the first time. Not bad for a pile of matchboxes! #msf17")
+                    self.tweet("I just won a game of Noughts & Crosses for the first time. Not bad for a pile of matchboxes! "+self.hashtag)
                 else:
                     nth = str(self.won)
                     if nth[-1]=="1" and nth[-2:]!="11":
@@ -108,13 +83,13 @@ class Collector(object):
                                        "I have become sentient enough to win another game of Noughts & Crosses.",
                                        "I have now won "+str(self.won)+" games of Noughts & Crosses. I'm nearly ready to take over the world.",
                                        "MENACE wins again!"
-                                      ])+" #msf17")
+                                      ])+" "+self.hashtag)
             self.won += 1
-        if self.data[-1][1] == "1":
+        if self.data[-1] == "1":
             if self.drawn == 0 and self.played != 1:
-                self.tweet("I just drew a game of Noughts & Crosses for the first time. #msf17")
+                self.tweet("I just drew a game of Noughts & Crosses for the first time. "+self.hashtag)
             self.drawn += 1
-        if self.data[-1][1] == "2":
+        if self.data[-1] == "2":
             self.lost += 1
         if self.played%20 == 0:
             self.plot_etc(N=self.played)
@@ -132,9 +107,9 @@ class Collector(object):
         self.output_numbers()
         if N is not None:
             self.save(N=N)
-            self.tweet_graph("This graph shows my learning progress after "+str(N)+" games. #msf17")
+            self.tweet_graph("This graph shows my learning progress after "+str(N)+" games. "+self.hashtag)
         if N2 is not None:
-            self.tweet_graph("I've played "+str(self.played)+" games so far today: I've won "+str(N2[0])+", drawn "+str(N2[1])+", and lost "+str(N2[2])+". #msf17")
+            self.tweet_graph("I've played "+str(self.played)+" games so far today: I've won "+str(N2[0])+", drawn "+str(N2[1])+", and lost "+str(N2[2])+". "+self.hashtag)
 
     def output_numbers(self):
         with open("display/numbers.txt","w") as f:
@@ -164,7 +139,7 @@ class Collector(object):
             self.data = []
             with open(filename) as f:
                 for line in f:
-                    self.data.append(line.strip("\n").split(","))
+                    self.data.append(line.strip("\n"))
         else:
             raise TypeError("File format ."+ext+" not recognised")
 
@@ -197,8 +172,7 @@ class Collector(object):
             self.save_json(filename)
         elif ext == "csv":
             with open(filename,"w") as f:
-                for line in self.data:
-                    f.write(",".join(line)+"\n")
+                f.write("\n".join(self.data))
         else:
             print("Filename not recognised, exporting as JSON instead")
             self.save(filename+".json")
@@ -219,10 +193,9 @@ class Collector(object):
         termios.tcsetattr(fd, termios.TCSADRAIN, old)
 
     def collect(self):
-        c1 = self.prompt_for_moves()
         c2 = self.prompt_for_outcome()
         if self.confirm():
-            self.data.append(("".join(c1),c2))
+            self.data.append(c2)
         else:
             self.collect()
 
@@ -235,16 +208,6 @@ class Collector(object):
         print("-"*30)
         for i in range(5):
             print("")
-        print("Where did MENACE go on its first move?")
-        print("PRESS 0 for    PRESS 1 for    PRESS 2 for")
-        print("   O| |            |O|            | |    ")
-        print("   -+-+-          -+-+-          -+-+-   ")
-        print("    | |            | |            |O|    ")
-        print("   -+-+-          -+-+-          -+-+-   ")
-        print("    | |            | |            | |    ")
-        m1 = self.prompt(["0","1","2"])
-        #m1 = "0"
-
         for i in range(2):
             print("")
         print("Where did the opponent go next?")
@@ -272,6 +235,7 @@ class Collector(object):
             print("   -+-+-          -+-+-       ")
             print("    |X|            | |X       ")
             return m1,self.prompt(["0","1"])
+
 
     def prompt_for_outcome(self):
         for i in range(2):

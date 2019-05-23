@@ -10,7 +10,7 @@ table.invisible td {border:0}
 table.totals,
 table.totals tr,
 table.totals td {border:0}
-table.totals td {width:200px;text-align:center;font-size:30px}
+table.totals td {width:100px;text-align:center;font-size:30px;padding-top:40px;padding-bottom:40px}
 table.totals span {font-size:60px}
 table {margin-left:auto;margin-right:auto}
 body {text-align:center;font-family:"Latin Modern Mono",serif}
@@ -19,14 +19,21 @@ body {text-align:center;font-family:"Latin Modern Mono",serif}
 <body>
 <img src='_files/logo.png' id='logob' style='width:302px;height:194px;margin-top:30px'><br />
 <img src='_files/logo-overlay.png' style='width:302px;height:194px;margin-top:-194px'>
+<br />
+<table class='invisible'>
+<tr><td>
 <img src='line.png' id='linePlot' style='width:1890px;630px'>
+</td><td>
 <table class='totals' style='margin-top:50px'>
 <tr>
 <td>MENACE wins<br /><span id='won'>0</span></td>
+</tr><tr>
 <td>draws<br /><span id='drawn'>0</span></td>
+</tr><tr>
 <td>human wins<br /><span id='lost'>0</span></td>
 </tr>
 </table>
+</td></tr></table>
 <script type='text/javascript'>
 function reloadIMG(){
     document.getElementById("linePlot").src="line.png?t=" + new Date().getTime()
