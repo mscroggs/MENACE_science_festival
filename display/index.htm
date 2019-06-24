@@ -10,19 +10,19 @@ table.invisible td {border:0}
 table.totals,
 table.totals tr,
 table.totals td {border:0}
-table.totals td {width:100px;text-align:center;font-size:30px;padding-top:40px;padding-bottom:40px}
+table.totals td {width:100px;text-align:center;font-size:30px;padding-top:30px;padding-bottom:30px}
 table.totals span {font-size:60px}
 table {margin-left:auto;margin-right:auto}
 body {text-align:center;font-family:"Latin Modern Mono",serif}
 </style>
 </head>
 <body>
-<img src='_files/logo.png' id='logob' style='width:302px;height:194px;margin-top:30px'><br />
-<img src='_files/logo-overlay.png' style='width:302px;height:194px;margin-top:-194px'>
+<img src='_files/logo.png' id='logob' style='width:200px;margin-top:30px'><br />
+<img src='_files/logo-overlay.png' style='width:200px;margin-top:-126px'>
 <br />
 <table class='invisible'>
 <tr><td>
-<img src='line.png' id='linePlot' style='width:1890px;630px'>
+<img src='line.png' id='linePlot' style='width:1200px;'>
 </td><td>
 <table class='totals' style='margin-top:50px'>
 <tr>
@@ -60,7 +60,7 @@ loader.onreadystatechange=function(){
 }
 
 function reloadN(){
-    loader.open("GET","/numbers.txt?t=" + new Date().getTime());
+    loader.open("GET","numbers.txt?t=" + new Date().getTime());
     loader.send();
 }
 reloadN()
