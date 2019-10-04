@@ -17,13 +17,19 @@ body {text-align:center;font-family:"Latin Modern Mono",serif}
 </style>
 </head>
 <body>
-<img src='_files/logo.png' id='logob' style='width:200px;margin-top:30px'><br />
+<div style='text-align:center;padding-right:100px'>
+<?php
+if(file_exists('_files/logo.png')){
+echo("
+<img src='_files/logo.png' id='logob' style='width:200px;margin-top:30px'><br />");
+if(file_exists('_files/logo-overlay.png')){
+echo("
 <img src='_files/logo-overlay.png' style='width:200px;margin-top:-126px'>
-<br />
-<table class='invisible'>
-<tr><td>
+<br />");}}
+?>
 <img src='line.png' id='linePlot' style='width:1200px;'>
-</td><td>
+</div>
+<div style='position:absolute;right:120px;top:120px'>
 <table class='totals' style='margin-top:50px'>
 <tr>
 <td>MENACE wins<br /><span id='won'>0</span></td>
@@ -33,17 +39,26 @@ body {text-align:center;font-family:"Latin Modern Mono",serif}
 <td>human wins<br /><span id='lost'>0</span></td>
 </tr>
 </table>
-</td></tr></table>
+</div>
+<div style='text-align:center;font-size:20px;position:absolute;top:45px;right:45px;width:250px'>Follow my learning progress on Twitter: <span style='padding-right:4px;font-size:35px;color:#4da8f3;font-family:"Chalkdust Icon Font"'>a</span>@MENACElearns</div>
+<div style='text-align:center;font-size:20px;position:absolute;bottom:12px;right:45px;width:250px'>#ItsAllAcademic</div>
 <script type='text/javascript'>
-function reloadIMG(){
-    document.getElementById("linePlot").src="line.png?t=" + new Date().getTime()
-}
+<?php
+if(file_exists('_files/logo-blinkfast-small.gif')){
+echo("
 function blink(){
-    document.getElementById("logob").src="_files/logo-blinkfast-small.gif"
+    document.getElementById('logob').src='_files/logo-blinkfast-small.gif'
     setTimeout(blink, 1000*(3+Math.random()*10));
 }
 
 blink()
+
+");}
+?>
+
+function reloadIMG(){
+    document.getElementById('linePlot').src='line.png?t=' + new Date().getTime()
+}
 
 setInterval(reloadIMG, 2000);
 
