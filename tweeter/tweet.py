@@ -1,5 +1,8 @@
-from twitter import *
-from . import login
+try:
+    from twitter import *
+    from . import login
+except:
+    login = None
 
 def send_tweet(text):
     try:

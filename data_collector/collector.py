@@ -10,7 +10,7 @@ class OutOfBeads(BaseException):
     pass
 
 class Collector(object):
-    def __init__(self, data=None, tweet=True, where="@hayfestival", hashtag="#HayFestival2019"):
+    def __init__(self, data=None, tweet=True, where="my current location", hashtag="#MENACE"):
         self.filename = "data-dump/data.json"
         self.data = []
         self.won = 0
@@ -38,7 +38,7 @@ class Collector(object):
         while True:
             winner, moves = g.play(return_moves=True)
             if moves[0] == "RESIGN":
-                #self.tweet("I just ran out of beads in my first move box. Please come reset me, @mscroggs!")
+                self.tweet("I just ran out of beads in my first move box. Please come reset me, @mscroggs!")
                 raise OutOfBeads
             if winner == 0:
                 w = "1"

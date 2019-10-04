@@ -3,7 +3,7 @@ import data_collector
 import sys
 
 if "resume" in sys.argv:
-    c = data_collector.Collector("data-dump/resume.json")
+    c = data_collector.Collector("data-dump/resume.json", where="@UCL", hashtag="#ItsAllAcademic")
 else:
     c = data_collector.Collector()
 
@@ -18,7 +18,7 @@ except KeyboardInterrupt:
     if end=="y":
         c.save("data-dump/final.json")
         c.save("data-dump/final.csv")
-        c.tweet_graph("I've been at @hayfestival today learning to play Noughts & Crosses. This graph shows my learning progress. See you tomorrow at the @BBCclick live show!  #HayFestival2019")
+        c.tweet_graph("I've been at @UCL's #ItsAllAcademic festival today learning to play Noughts & Crosses. This graph shows my learning progress. Thanks for teaching me!")
     else:
         c.save("data-dump/resume.json")
         c.save("data-dump/resume.csv")
