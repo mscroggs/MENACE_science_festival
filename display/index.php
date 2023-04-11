@@ -17,7 +17,7 @@ body {text-align:center;font-family:"Latin Modern Mono",serif}
 </style>
 </head>
 <body>
-<div style='text-align:center;padding-right:100px'>
+<div style='text-align:center;padding-right:100px;padding-top:20px'>
 <?php
 if(file_exists('_files/logo.png')){
 echo("
@@ -27,9 +27,9 @@ echo("
 <img src='_files/logo-overlay.png' style='width:200px;margin-top:-126px'>
 <br />");}}
 ?>
-<img src='line.png' id='linePlot' style='width:1200px;'>
+<img src='line.png' id='linePlot' style='width:1500px;'>
 </div>
-<div style='position:absolute;right:120px;top:120px'>
+<div style='position:absolute;right:120px;top:210px'>
 <table class='totals' style='margin-top:50px'>
 <tr>
 <td>MENACE wins<br /><span id='won'>0</span></td>
@@ -40,8 +40,10 @@ echo("
 </tr>
 </table>
 </div>
-<div style='text-align:center;font-size:20px;position:absolute;top:45px;right:45px;width:250px'>Follow my learning progress on Twitter: <span style='padding-right:4px;font-size:35px;color:#4da8f3;font-family:"Chalkdust Icon Font"'>a</span>@MENACElearns</div>
-<div style='text-align:center;font-size:20px;position:absolute;bottom:12px;right:45px;width:250px'>#ItsAllAcademic</div>
+<?php
+//<div style='text-align:center;font-size:20px;position:absolute;top:45px;right:45px;width:250px'>Follow my learning progress on Twitter: <span style='padding-right:4px;font-size:35px;color:#4da8f3;font-family:"Chalkdust Icon Font"'>a</span>@MENACElearns</div>
+//<div style='text-align:center;font-size:20px;position:absolute;bottom:12px;right:45px;width:250px'>#CompSciInAction</div>
+?>
 <script type='text/javascript'>
 <?php
 if(file_exists('_files/logo-blinkfast-small.gif')){

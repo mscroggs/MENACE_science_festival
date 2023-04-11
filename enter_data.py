@@ -3,9 +3,14 @@ import data_collector
 import sys
 
 if "resume" in sys.argv:
-    c = data_collector.Collector("data-dump/resume.json", where="@UCL", hashtag="#ItsAllAcademic")
+    c = data_collector.Collector(
+        "data-dump/resume.json",
+        where="the @IMAMaths Festival at @SHUMaths",
+        hashtag="#MENACE #IMAFest22")
 else:
-    c = data_collector.Collector()
+    c = data_collector.Collector(
+        where="the @IMAMaths Festival at @SHUMaths",
+        hashtag="#MENACE #IMAFest22")
 
 if "test" in sys.argv:
     c.TWEETING = False

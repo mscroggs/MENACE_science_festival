@@ -1,5 +1,2 @@
-try:
-    from .config import login
-except:
-    login = None
+from .config import login
 from .tweet import *

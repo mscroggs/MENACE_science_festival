@@ -236,7 +236,6 @@ class Collector(object):
             print("    |X|            | |X       ")
             return m1,self.prompt(["0","1"])
 
-
     def prompt_for_outcome(self):
         for i in range(2):
             print("")
