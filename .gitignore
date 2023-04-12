@@ -7,3 +7,7 @@ display/line.png
 display/_files
 display/_files/*
 display/numbers.txt
+
+*.out
+*.pdf
+*.aux
