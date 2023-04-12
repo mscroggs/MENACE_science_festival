@@ -11,3 +11,4 @@ display/numbers.txt
 *.out
 *.pdf
 *.aux
+*.log
