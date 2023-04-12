@@ -1,0 +1,54 @@
+\documentclass[a4paper]{article}
+\usepackage[top=-10pt,bottom=0pt,left=-15pt,right=0pt]{geometry}
+\usepackage{tikz}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\begin{document}
+
+\thispagestyle{empty}
+\begin{tikzpicture}[overlay,x=1mm,y=1mm]
+\foreach \y in {0, 1, ..., 10}
+    \foreach \x in {0, 1, ..., 3}{
+        \begin{scope}[shift={(9+192/8+\x*192/4, -9-279/22-\y*279/11)}]
+        \node[anchor=south] at (0, -14) {\includegraphics[width=3.5cm]{eyes-logo}};
+        \foreach \xx in {-0.6,0,0.6} \foreach \yy in {-0.6,0,0.6}
+          \node at (\xx, 8+\yy) {\color{white}\setmainfont[Scale=2]{Futura Bold}I LOST TO};
+        \node at (0, 8) {\setmainfont[Scale=2]{Futura Bold}I LOST TO};
+        %\draw[red] (-192/8,-279/22) rectangle +(192/4,279/11);
+        \end{scope}
+    }
+\end{tikzpicture}
+
+\null\newpage
+
+\thispagestyle{empty}
+\begin{tikzpicture}[overlay,x=1mm,y=1mm]
+\foreach \y in {0, 1, ..., 10}
+    \foreach \x in {0, 1, ..., 3}{
+        \begin{scope}[shift={(9+192/8+\x*192/4, -9-279/22-\y*279/11)}]
+        \node[anchor=south] at (0, -14) {\includegraphics[width=3.5cm]{eyes-logo}};
+        \foreach \xx in {-0.6,0,0.6} \foreach \yy in {-0.6,0,0.6}
+          \node at (\xx, 8+\yy) {\color{white}\setmainfont[Scale=1.7]{Futura Bold}I DREW WITH};
+        \node at (0, 8) {\setmainfont[Scale=1.7]{Futura Bold}I DREW WITH};
+        %\draw[red] (-192/8,-279/22) rectangle +(192/4,279/11);
+        \end{scope}
+    }
+\end{tikzpicture}
+
+\null\newpage
+
+\thispagestyle{empty}
+\begin{tikzpicture}[overlay,x=1mm,y=1mm]
+\foreach \y in {0, 1, ..., 10}
+    \foreach \x in {0, 1, ..., 3}{
+        \begin{scope}[shift={(9+192/8+\x*192/4, -9-279/22-\y*279/11)}]
+        \node[anchor=south] at (0, -14) {\includegraphics[width=3.5cm]{eyes-logo}};
+        \foreach \xx in {-0.6,0,0.6} \foreach \yy in {-0.6,0,0.6}
+          \node at (\xx, 8+\yy) {\color{white}\setmainfont[Scale=2]{Futura Bold}I BEAT};
+        \node at (0, 8) {\setmainfont[Scale=2]{Futura Bold}I BEAT};
+        %\draw[red] (-192/8,-279/22) rectangle +(192/4,279/11);
+        \end{scope}
+    }
+\end{tikzpicture}
+
+\end{document}
